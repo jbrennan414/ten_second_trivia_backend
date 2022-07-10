@@ -22,7 +22,7 @@ jobs:
         
         script: |
           echo "Deployment successful to Digital Ocean"
-          cd currensee_backend  
+          cd ten_second_trivia_backend
           git pull
           npm i
           pm2 restart all
