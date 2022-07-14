@@ -4,21 +4,38 @@ var url = "mongodb://localhost:27017/";
 module.exports = {
     get_question: function () {
 
-        MongoClient.connect(url, function(err, db) {
-            if (err) {
-                return `error ${err}`
+        async function findOne() {
+
+            const client = await MongoClient.connect(url, { useNewUrlParser: true })
+                .catch(err => { console.log(err); });
+
+            if (!client) {
+                return;
             }
-            var dbo = db.db("questions");
-            dbo.collection("questions").findOne({}, function(err, result) {
-                if (err) {
-                    return `error ${err}`                
-                }
-              
-                db.close();
 
-                return result.name
+            try {
 
-            });
-        });
+                const db = client.db("questions");
+
+                let collection = db.collection('questions');
+
+                let query = { date: '130722' }
+
+                let res = await collection.findOne(query);
+                return res 
+                
+
+            } catch (err) {
+
+                console.log(err);
+
+            } finally {
+
+                client.close();
+            }
+        }
+
+        await findOne();
+
     }
-  };
+};
