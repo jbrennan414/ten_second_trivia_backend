@@ -1,41 +1,33 @@
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
+    
+async function run() {
+    try {
+
+        const client = new MongoClient(url);
+
+        const db = client.db("questions");
+
+        let collection = db.collection('questions');
+
+        const query = { date: '130722' }
+  
+        const movie = await collection.findOne(query);  
+
+        console.log(movie);
+    } finally {
+      await client.close();
+    }
+}
+
+
 
 module.exports = {
+
+    
     get_question: function () {
 
-        async function findOne() {
-
-            const client = await MongoClient.connect(url, { useNewUrlParser: true })
-                .catch(err => { console.log(err); });
-
-            if (!client) {
-                return;
-            }
-
-            try {
-
-                const db = client.db("questions");
-
-                let collection = db.collection('questions');
-
-                let query = { date: '130722' }
-
-                let res = await collection.findOne(query);
-                return res 
-                
-
-            } catch (err) {
-
-                console.log(err);
-
-            } finally {
-
-                client.close();
-            }
-        }
-
-        await findOne();
+        return run().catch(console.dir);
 
     }
 };
