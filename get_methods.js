@@ -4,25 +4,23 @@ var dbUrl = 'mongodb://127.0.0.1:27017/';
 const get_question = _ => {
     return new Promise((resolve => {
 
-        MongoClient.connect(dbUrl, function(err, db) {
+        MongoClient.connect(dbUrl, function(err, client) {
             if (err) {
                 resolve(error)
                 throw err;
             } else {
                 console.log("WE CONNECTED")
 
+                const db = client.db('questions')
 
-                db.listCollections().toArray(function(err, collInfos) {
-                    // collInfos is an array of collection info objects that look like:
-                    // { name: 'test', options: {} }
+                db.listCollections().toArray(function(err, items) {
 
-                    if (err) {
-                        resolve(err)
-                    }
-
-                    resolve(collInfos)
+                    console.log(items)
+                    
+                    resolve(items)
+                    client.close();
+                    
                 });
-
 
                 // dbo.collection("questions").findOne({"date" : "130722"}, function(err, result) {
                 //     if (err) {
