@@ -11,14 +11,18 @@ const get_question = _ => {
             } else {
                 console.log("WE CONNECTED")
 
-                var adminDb = db.admin();
-                // List all the available databases
-                adminDb.listDatabases(function(err, result) {
-                    console.log(result.databases);
-                    resolve(result.databases)
-                    db.close();
-                });
+                const db = client.db('questions');
 
+                db.listCollections().toArray((err, collections) => {
+
+                    if (err) { resolve(err) }
+
+                    console.log(collections);
+
+                    resolve(collections)
+             
+                    client.close();
+                 });
             }
         })
     }))
