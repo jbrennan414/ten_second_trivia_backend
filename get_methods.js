@@ -4,7 +4,7 @@ var dbUrl = 'mongodb://127.0.0.1:27017/';
 const get_question = _ => {
     return new Promise((resolve => {
 
-        MongoClient.connect(dbUrl, function(err, db) {
+        MongoClient.connect(dbUrl, function(err, client) {
             if (err) {
                 resolve("this error", error)
                 throw err;
