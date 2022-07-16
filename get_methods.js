@@ -11,29 +11,14 @@ const get_question = _ => {
             } else {
                 console.log("WE CONNECTED")
 
-                const db = client.db('questions')
-
-                db.listCollections().toArray(function(err, items) {
-
-                    if (err) {
-                        resolve("ERR", err)
-                    }
-
-                    items.forEach(item => {
-                        console.log("item ==>", item)
-                    });
-                    
-                    resolve(items)
-                    client.close();
-
+                var adminDb = db.admin();
+                // List all the available databases
+                adminDb.listDatabases(function(err, result) {
+                    console.log(result.databases);
+                    resolve(result.databases)
+                    db.close();
                 });
 
-                // dbo.collection("questions").findOne({"date" : "130722"}, function(err, result) {
-                //     if (err) {
-                //         console.log("ERROR")
-                //     }
-                //     db.close()
-                // })
             }
         })
     }))
