@@ -9,7 +9,11 @@ const get_question = _ => {
                 resolve(error)
                 throw err;
             } else {
-                // console.log("WE CONNECTED")
+                console.log("WE CONNECTED")
+
+                const swag = db.listCollections()
+                resolve(swag)
+
                 // var dbo = db.db("questions")
                 // dbo.collection("questions").findOne({"date" : "130722"}, function(err, result) {
                 //     if (err) {
@@ -17,9 +21,6 @@ const get_question = _ => {
                 //     }
                 //     db.close()
                 // })
-
-                resolve("that worked, we got a db connection")
-
             }
         })
     }))
