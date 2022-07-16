@@ -18,17 +18,14 @@ const get_question = _ => {
                 console.log("WE CONNECTED")
 
                 const db = client.db('questions');
+                const questionsCollection = db.collection("questions");
 
-                db.listCollections().toArray((err, collections) => {
+                const query = { date: "130722" };
 
-                    if (err) { resolve(err) }
+                const ourResult = questionsCollection.findOne(query);
 
-                    console.log(collections);
+                resolve(ourResult)
 
-                    resolve(collections)
-             
-                    client.close();
-                 });
             }
         })
     }))
