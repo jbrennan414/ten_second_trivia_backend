@@ -1,5 +1,9 @@
+require("dotenv")
+
 var MongoClient = require('mongodb').MongoClient;
-var dbUrl = 'mongodb://127.0.0.1:27017/';
+// var dbUrl = 'mongodb://127.0.0.1:27017/';
+
+var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@127.0.0.1:27017/`
 
 const get_question = _ => {
     return new Promise((resolve => {
