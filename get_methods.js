@@ -6,7 +6,7 @@ const get_question = _ => {
 
         MongoClient.connect(dbUrl, function(err, client) {
             if (err) {
-                resolve(error)
+                resolve("this error", error)
                 throw err;
             } else {
                 console.log("WE CONNECTED")
@@ -15,11 +15,17 @@ const get_question = _ => {
 
                 db.listCollections().toArray(function(err, items) {
 
-                    console.log(items)
+                    if (err) {
+                        resolve("ERR", err)
+                    }
+
+                    items.forEach(item => {
+                        console.log("item ==>", item)
+                    });
                     
                     resolve(items)
                     client.close();
-                    
+
                 });
 
                 // dbo.collection("questions").findOne({"date" : "130722"}, function(err, result) {
