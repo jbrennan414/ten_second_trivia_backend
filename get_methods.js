@@ -1,4 +1,4 @@
-require("dotenv")
+require("dotenv").config()
 
 var MongoClient = require('mongodb').MongoClient;
 // var dbUrl = 'mongodb://127.0.0.1:27017/';
@@ -10,7 +10,7 @@ const get_question = _ => {
 
         MongoClient.connect(dbUrl, function(err, client) {
             if (err) {
-                resolve("this error", error)
+                resolve("this error", err)
                 throw err;
             } else {
                 console.log("WE CONNECTED")

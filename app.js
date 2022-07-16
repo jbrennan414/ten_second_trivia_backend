@@ -13,11 +13,7 @@ app.get('/', (req, res) => {
 })
 
 function middleware(req, res, next) {
-
   // hash login/password client side, send as an auth header
-  console.log(req.headers.authorization)
-  console.log(process.env.BASIC_AUTH)
-
   // Verify credentials
   if (req.headers.authorization !== process.env.BASIC_AUTH) {        
     return res.status(401).send('Authentication required.') // Access denied.   
