@@ -20,7 +20,7 @@ const get_question = _ => {
                 const db = client.db('questions');
                 const questionsCollection = db.collection("questions");
 
-                const query = { date: "130722" };
+                const query = { date: "160722" };
 
                 const ourResult = questionsCollection.findOne(query);
 
