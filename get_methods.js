@@ -11,10 +11,11 @@ const get_question = _ => {
             } else {
                 console.log("WE CONNECTED")
 
-                const swag = db.listCollections()
-                resolve(swag)
+                var dbo = db.db("questions")
+                const collections = dbo.listCollections()
 
-                // var dbo = db.db("questions")
+                resolve(collections)
+
                 // dbo.collection("questions").findOne({"date" : "130722"}, function(err, result) {
                 //     if (err) {
                 //         console.log("ERROR")
