@@ -11,10 +11,18 @@ const get_question = _ => {
             } else {
                 console.log("WE CONNECTED")
 
-                var dbo = db.db("questions")
-                const collections = dbo.listCollections()
 
-                resolve(collections)
+                db.listCollections().toArray(function(err, collInfos) {
+                    // collInfos is an array of collection info objects that look like:
+                    // { name: 'test', options: {} }
+
+                    if (err) {
+                        resolve(err)
+                    }
+
+                    resolve(collInfos)
+                });
+
 
                 // dbo.collection("questions").findOne({"date" : "130722"}, function(err, result) {
                 //     if (err) {
