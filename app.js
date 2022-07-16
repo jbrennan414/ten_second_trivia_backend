@@ -4,7 +4,7 @@ const express = require('express');
 const app = express()
 const port = 3000
 
-const get_questions = require('./get_methods');
+const get_methods = require('./get_methods');
 
 var securedRoutes = require('express').Router()
 
@@ -29,11 +29,29 @@ function middleware(req, res, next) {
 
 securedRoutes.use(middleware)
 
-securedRoutes.get('/question', (req, res) => {
-  let response = get_questions.get_question()
-  res.send(response)
+const asyncHandler = (fun) => (req, res, next) => {
+  Promise.resolve(fun(req, res, next))
+  .catch(next)
+}
 
-}) 
+const asyncFunc = (text) => {
+  return new Promise((resolve => {
+    setTimeout(() => resolve(text), 1000)
+  }))
+}
+
+securedRoutes.get('/question', asyncHandler(async (req, res) => {
+  const result1 = await asyncFunc('hello,')
+  const [result2, result3] = await Promise.all([
+    get_methods.get_question(),
+    asyncFunc('my name is'),
+    asyncFunc('Ionnis')
+  ])
+
+  const result = `${result1} ${result2} ${result3}`
+  return res.send(result)
+
+})) 
 
 app.use('/secure', securedRoutes)
 app.get('public', /* ... */)

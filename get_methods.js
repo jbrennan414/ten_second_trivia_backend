@@ -1,33 +1,29 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
-    
-async function run() {
-    try {
+        // var MongoClient = require('mongodb').MongoClient;
+        // var database = undefined;
+        // var dbUrl = 'mongodb://127.0.0.1:27017/';
 
-        const client = new MongoClient(url);
+        //     MongoClient.connect(dbUrl, function(err, db) {
+        //         if (err) {
+        //                 throw err;
+        //             } else {
+        //             console.log("WE CONNECTED")
+        //             var dbo = db.db("questions")
+        //             dbo.collection("questions").findOne({"date" : "130722"}, function(err, result) {
+        //             if (err) {
+        //                 console.log("ERROR")
+        //             }
+        //             console.log("OMG", result)
+        //             db.close()
+        //             })
+        //             }
+        //     })
 
-        const db = client.db("questions");
 
-        let collection = db.collection('questions');
 
-        const query = { date: '130722' }
-  
-        const movie = await collection.findOne(query);  
-
-        console.log(movie);
-    } finally {
-      await client.close();
-    }
+const get_question = _ => {
+    return new Promise((resolve => {
+        setTimeout(() => resolve("that worked"), 5000);
+    }))
 }
 
-
-
-module.exports = {
-
-    
-    get_question: function () {
-
-        return run().catch(console.dir);
-
-    }
-};
+module.exports = { get_question: get_question }
