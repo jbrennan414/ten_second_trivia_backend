@@ -37,7 +37,7 @@ const asyncFunc = (text) => {
 }
 
 securedRoutes.get('/question', asyncHandler(async (req, res) => {
-  let dates = req.params.date
+  const dates = req.query.date
 
   const result1 = await get_methods.get_question(dates)
   // const [result2, result3] = await Promise.all([
