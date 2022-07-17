@@ -37,7 +37,7 @@ const asyncFunc = (text) => {
 }
 
 securedRoutes.get('/question', asyncHandler(async (req, res) => {
-  const result1 = await get_methods.get_question()
+  const result1 = await get_methods.get_question("160722")
   // const [result2, result3] = await Promise.all([
   //   get_methods.get_question(),
   //   asyncFunc('my name is'),

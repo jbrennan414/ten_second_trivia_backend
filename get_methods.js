@@ -7,7 +7,7 @@ var host = "localhost"
 
 var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@${host}/${targetDB}`
 
-const get_question = _ => {
+const get_question = (todaysDate) => {
     return new Promise((resolve => {
 
         MongoClient.connect(dbUrl, function(err, client) {
@@ -20,7 +20,7 @@ const get_question = _ => {
                 const db = client.db('questions');
                 const questionsCollection = db.collection("questions");
 
-                const query = { date: "160722" };
+                const query = { date: todaysDate };
 
                 const ourResult = questionsCollection.findOne(query);
 
