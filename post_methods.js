@@ -26,7 +26,7 @@ const post_new_question = _ => {
                 const questionsCollection = db.collection("questions");
 
                 const document = { 
-                    date: todaysDate,
+                    date: "180722",
                     question: res
                 };
 
