@@ -56,6 +56,7 @@ securedRoutes.get('/question', asyncHandler(async (req, res) => {
 
 securedRoutes.get('/test', (req, res) => {
   post_methods.post_new_question()
+  res.send()
 })
 
 app.use('/secure', securedRoutes)
