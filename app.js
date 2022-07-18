@@ -54,15 +54,12 @@ securedRoutes.get('/question', asyncHandler(async (req, res) => {
 
 })) 
 
+securedRoutes.get('/test', (req, res) => {
+  post_methods.post_new_question()
+})
+
 app.use('/secure', securedRoutes)
 app.get('public', /* ... */)
-
-
-// Schedule tasks to be run on the server.
-cron.schedule('* * * * *', function() {
-  console.log('running a task every minute');
-  post_methods.post_new_question()
-});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
