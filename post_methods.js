@@ -42,7 +42,7 @@ const post_new_question = _ => {
             .catch(error => {
                 console.error(error);
             });
-    })
+    }))
 }
 
 module.exports = { post_new_question: post_new_question }
