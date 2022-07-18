@@ -9,37 +9,40 @@ var host = "localhost"
 var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@${host}/${targetDB}`
 
 const post_new_question = _ => {
-    axios
-        .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
-        .then(res => {
-            console.log(`statusCode: ${res.status}`);
-            console.log("resonse from trivia...", res);
+    return new Promise((resolve => {
 
-            MongoClient.connect(dbUrl, function(err, client) {
+        axios
+            .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
+            .then(res => {
+                console.log(`statusCode: ${res.status}`);
+                console.log("resonse from trivia...", res);
 
-                if (err) {
-                    console.log(`That was an error ${err}`)
-                    resolve(err)
-                }
+                MongoClient.connect(dbUrl, function(err, client) {
 
-                const db = client.db('questions');
-                const questionsCollection = db.collection("questions");
+                    if (err) {
+                        console.log(`That was an error ${err}`)
+                        resolve(err)
+                    }
 
-                const document = { 
-                    date: "180722",
-                    question: res
-                };
+                    const db = client.db('questions');
+                    const questionsCollection = db.collection("questions");
 
-                const ourResult = questionsCollection.insertOne(document)
+                    const document = { 
+                        date: "180722",
+                        question: res
+                    };
 
-                resolve(ourResult)
+                    const ourResult = questionsCollection.insertOne(document)
+
+                    resolve(ourResult)
+
+                })
 
             })
-
-        })
-        .catch(error => {
-            console.error(error);
-        });
+            .catch(error => {
+                console.error(error);
+            });
+    })
 }
 
 module.exports = { post_new_question: post_new_question }
