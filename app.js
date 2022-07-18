@@ -1,10 +1,13 @@
 require('dotenv').config()
 
 const express = require('express');
+const cron = require('node-cron');
+
 const app = express()
 const port = 3000
 
 const get_methods = require('./get_methods');
+const post_methods = require('./post_methods')
 
 var securedRoutes = require('express').Router()
 
@@ -57,3 +60,9 @@ app.get('public', /* ... */)
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+// Schedule tasks to be run on the server.
+cron.schedule('* * * * *', function() {
+  console.log('running a task every minute');
+  post_methods.post_new_question()
+});
