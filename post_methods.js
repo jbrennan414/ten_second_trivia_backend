@@ -24,8 +24,26 @@ const post_new_question = _ => {
             console.log(`statusCode: ${res.statusCode}`);
           
             res.on('data', d => {
-              process.stdout.write(d);
-              console.log(d)
+
+                MongoClient.connect(dbUrl, function(err, client) {
+
+                    if (err) {
+                        resolve(`${err}`)
+                        throw err;
+                    } else {
+
+                        const db = client.db('questions');
+                        const questionsCollection = db.collection("questions");
+        
+                        const query = { 
+                            date: "180722",
+                            question: d
+                        };
+
+                        const ourResult = questionsCollection.insertOne(query);
+                        resolve()
+                    }
+                })
             });
           });
           
@@ -35,7 +53,6 @@ const post_new_question = _ => {
           
           req.end();
 
-          resolve()
 
     })) 
 }
