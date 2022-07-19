@@ -11,18 +11,19 @@ var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@$
 const post_new_question = _ => {
     return new Promise((resolve => {
 
-        axios
-            .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
-            .then(res => {
-                console.log(`statusCode: ${res.status}`);
-                console.log("resonse from trivia...", res);
+        MongoClient.connect(dbUrl, function(err, client) {
 
-                MongoClient.connect(dbUrl, function(err, client) {
+            if (err) {
+                console.log(`That was an error ${err}`)
+                resolve(err)
+                return 
+            }
 
-                    if (err) {
-                        console.log(`That was an error ${err}`)
-                        resolve(err)
-                    }
+            axios
+                .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
+                .then(res => {
+                    console.log(`statusCode: ${res.status}`);
+                    console.log("resonse from trivia...", res);
 
                     const db = client.db('questions');
                     const questionsCollection = db.collection("questions");
