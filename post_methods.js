@@ -20,13 +20,21 @@ const post_new_question = _ => {
                 console.log(`statusCode: ${res.status}`);
                 console.log("resonse from trivia...", res);
 
-                await postToMongo(res)
+                await postToMongo()
                 resolve()
             })
             .catch(error => {
                 console.error(error);
                 resolve()
             });
+    }))
+}
+
+const postToMongo = _ => {
+    return new Promise((resolve => {
+        setTimeout(() => {
+            resolve()
+        }, 3000);
     }))
 }
 
