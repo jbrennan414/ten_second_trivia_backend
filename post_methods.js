@@ -25,7 +25,7 @@ const post_new_question = _ => {
         });
 }
 
-const postToMongo = (todayquestion) => {
+const postToMongo = async (todayquestion) => {
 
     console.log("tryna post to mongo")
 
