@@ -9,7 +9,7 @@ var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@$
 
 const axios = require('axios');
 
-const post_new_question = _ => {
+const post_new_question = async () => {
     console.log("post new question")
     axios
         .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
