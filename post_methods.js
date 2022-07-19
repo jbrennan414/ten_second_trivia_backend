@@ -1,5 +1,7 @@
 require("dotenv").config()
 
+const https = require('https');
+
 var MongoClient = require('mongodb').MongoClient;
 const axios = require('axios');
 
@@ -11,39 +13,31 @@ var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@$
 const post_new_question = _ => {
     return new Promise((resolve => {
 
-        MongoClient.connect(dbUrl, function(err, client) {
-
-            if (err) {
-                console.log(`That was an error ${err}`)
-                resolve(err)
-                return 
-            }
-
-            axios
-                .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
-                .then(res => {
-                    console.log(`statusCode: ${res.status}`);
-                    console.log("resonse from trivia...", res);
-
-                    const db = client.db('questions');
-                    const questionsCollection = db.collection("questions");
-
-                    const document = { 
-                        date: "180722",
-                        question: res
-                    };
-
-                    const ourResult = questionsCollection.insertOne(document)
-
-                    resolve(ourResult)
-
-                })
-
-            })
-            .catch(error => {
-                console.error(error);
+        const options = {
+            hostname: 'the-trivia-api.com',
+            port: 443,
+            path: '/api/questions?limit=5&difficulty=easy',
+            method: 'GET',
+          };
+          
+          const req = https.request(options, res => {
+            console.log(`statusCode: ${res.statusCode}`);
+          
+            res.on('data', d => {
+              process.stdout.write(d);
+              console.log(d)
             });
-    }))
+          });
+          
+          req.on('error', error => {
+            console.error(error);
+          });
+          
+          req.end();
+
+          resolve()
+
+    })) 
 }
 
 module.exports = { post_new_question: post_new_question }
