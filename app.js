@@ -54,10 +54,10 @@ securedRoutes.get('/question', asyncHandler(async (req, res) => {
 
 })) 
 
-securedRoutes.get('/test', (req, res) => {
-  post_methods.post_new_question()
-  res.send()
-})
+securedRoutes.get('/test', asyncHandler(async (req, res) => {
+  const result = await post_methods.post_new_question()
+  return res.send(result)
+}))
 
 app.use('/secure', securedRoutes)
 app.get('public', /* ... */)
