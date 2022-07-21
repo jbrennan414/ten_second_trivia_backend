@@ -9,19 +9,13 @@ var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@$
 
 const axios = require('axios');
 
-// const post_new_question = async () => {
-const post_new_question = _ => {
+const post_new_question = () => {
     return new Promise((resolve => {
-
-        console.log("post new question")
         axios
             .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
             .then(res => {
-                console.log(`statusCode: ${res.status}`);
-                console.log("resonse from trivia...", res);
-
-                await postToMongo()
-                resolve()
+                let json = JSON.stringify(res.data)
+                resolve(json)
             })
             .catch(error => {
                 console.error(error);
@@ -30,12 +24,14 @@ const post_new_question = _ => {
     }))
 }
 
-const postToMongo = _ => {
-    return new Promise((resolve => {
-        setTimeout(() => {
-            resolve()
-        }, 3000);
-    }))
+function post_to_mongo () {
+    setTimeout(() => {
+        console.log("you are done waiting!")
+        return "fucking wait for me"
+    }, 3000);
 }
 
-module.exports = { post_new_question: post_new_question }
+module.exports = { 
+    post_new_question: post_new_question,
+    post_to_mongo: post_to_mongo
+}
