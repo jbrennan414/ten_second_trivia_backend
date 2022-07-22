@@ -45,7 +45,9 @@ function post_to_mongo (result) {
                     question: result
                  };
 
-                const ourResult = questionsCollection.insertOne(insertObject)
+                const ourResult = questionsCollection.insertOne(insertObject).catch(error => {
+                    console.log("error inserting", error)
+                })
                 resolve(ourResult)
 
             }
