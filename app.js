@@ -33,28 +33,15 @@ const asyncHandler = (fun) => (req, res, next) => {
   .catch(next)
 }
 
-const asyncFunc = (text) => {
-  return new Promise((resolve => {
-    setTimeout(() => resolve(text), 1000)
-  }))
-}
-
 securedRoutes.get('/question', asyncHandler(async (req, res) => {
   const dates = req.query.date
 
-  const result1 = await get_methods.get_question(dates)
-  // const [result2, result3] = await Promise.all([
-  //   get_methods.get_question(),
-  //   asyncFunc('my name is'),
-  //   asyncFunc('Ionnis')
-  // ])
-
-  // const result = `${result1} ${result2} ${result3}`
-  return res.send(result1)
+  const result = await get_methods.get_question(dates)
+  return res.send(result)
 
 })) 
 
-securedRoutes.get('/test', asyncHandler(async (req, res) => {
+securedRoutes.get('/new_question', asyncHandler(async (req, res) => {
 
   const questions = await Promise.all([
     post_methods.post_new_question()
@@ -65,7 +52,7 @@ securedRoutes.get('/test', asyncHandler(async (req, res) => {
       return res.send(anotherResult) 
     })
   }).catch(function() {
-    console.log("Big test")
+    console.log("we had an error writing to the db")
   })
 }))
 

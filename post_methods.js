@@ -37,7 +37,7 @@ function post_to_mongo (result) {
                 const questionsCollection = db.collection("questions");
 
                 const today = new Date()
-                const dayString = `${today.getDate()}${today.getMonth()+1}${today.getFullYear()}`
+                const dayString = `${parseDates(today.getDate())}${parseDates(today.getMonth()+1)}${today.getFullYear()}`
 
                 const insertObject = { 
                     _id: Date.now(),
@@ -54,6 +54,18 @@ function post_to_mongo (result) {
         })
 
     }))
+}
+
+//add a preceding zero when we need it
+function parseDates(rawValue) {
+    let newDate = rawValue
+
+    if (rawValue < 10) {
+        newDate = `0${rawValue}`
+    }
+
+    return newDate
+
 }
 
 module.exports = { 
