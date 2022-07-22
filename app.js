@@ -58,31 +58,16 @@ securedRoutes.get('/test', asyncHandler(async (req, res) => {
 
   const questions = await Promise.all([
     post_methods.post_new_question()
-  ]).then(function(results) {
-    console.log("SWAG", results)
-
-
-
-
-    
-    return res.send(results)
+  ]).then(async function(results) {
+      const foo = await Promise.all([
+      post_methods.post_to_mongo(results)
+    ]).then(function(anotherResult) {
+      return res.send(anotherResult) 
+    })
   }).catch(function() {
     console.log("Big test")
   })
-
 }))
-
-// doSomething(function (result) {
-//   doSomethingElse(result, function (newResult) {
-//     doThirdThing(newResult, function (finalResult) {
-//       console.log("Got the final result: " + finalResult);
-//     }, failureCallback);
-//   }, failureCallback);
-// }, failureCallback);
-
-function failureCallback() {
-  console.log("fuck")
-}
 
 app.use('/secure', securedRoutes)
 app.get('public', /* ... */)

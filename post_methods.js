@@ -24,11 +24,34 @@ const post_new_question = () => {
     }))
 }
 
-function post_to_mongo () {
-    setTimeout(() => {
-        console.log("you are done waiting!")
-        return "fucking wait for me"
-    }, 3000);
+function post_to_mongo (result) {
+    return new Promise((resolve => {
+
+        MongoClient.connect(dbUrl, function(err, client) {
+            if (err) {
+                resolve(`${err}`)
+                throw err;
+            } else {
+
+                const db = client.db('questions');
+                const questionsCollection = db.collection("questions");
+
+                const today = new Date()
+                const dayString = `${today.getDate()}${today.getMonth()+1}${today.getFullYear()}`
+
+                const insertObject = { 
+                    _id: Date.now(),
+                    date: dayString,
+                    question: result
+                 };
+
+                const ourResult = questionsCollection.insertOne(insertObject)
+                resolve(ourResult)
+
+            }
+        })
+
+    }))
 }
 
 module.exports = { 
