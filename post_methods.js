@@ -72,9 +72,7 @@ async function addNewQuestionsToMongo() {
     const question = await get_questions()
     const writeToMongo = await post_to_mongo(question)
     
-    Promise.all([question, writeToMongo]).then(resolve => {
-        resolve()
-    })
+    return writeToMongo
 
 }
 
