@@ -68,21 +68,19 @@ function parseDates(rawValue) {
 }
 
 async function addNewQuestionsToMongo() {
-
-  const questions = await Promise.all([
-    post_new_question()
-  ]).then(async function(results) {
-      const foo = await Promise.all([
-      post_to_mongo(results)
-    ]).then(function(anotherResult) {
-      return anotherResult
-    })
-  }).catch(function(error) {
-    console.log("we had an error writing to the db", error)
-  })
-
-  return questions
-
+    return new Promise((resolve => {
+        const questions = await Promise.all([post_new_question()])
+            .then(async function(results) {
+                const foo = await Promise.all([
+                    post_to_mongo(results)
+                ]).then(function(anotherResult) {
+                    resolve(anotherResult)
+            })
+        }).catch(function(error) {
+            console.log("we had an error writing to the db", error)
+            resolve()
+        })
+    }))
 }
 
 addNewQuestionsToMongo()
