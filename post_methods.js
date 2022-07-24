@@ -68,7 +68,7 @@ function parseDates(rawValue) {
 
 }
 
-function addNewQuestionsToMongo() {
+async function addNewQuestionsToMongo() {
 
   const questions = await Promise.all([
     post_new_question()
