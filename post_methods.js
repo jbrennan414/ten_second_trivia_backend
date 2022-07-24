@@ -75,7 +75,7 @@ async function addNewQuestionsToMongo() {
       const foo = await Promise.all([
       post_to_mongo(results)
     ]).then(function(anotherResult) {
-      return res.send(anotherResult) 
+      return anotherResult
     })
   }).catch(function(error) {
     console.log("we had an error writing to the db", error)
