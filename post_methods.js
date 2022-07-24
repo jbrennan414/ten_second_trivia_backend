@@ -68,13 +68,13 @@ function parseDates(rawValue) {
 
 }
 
-function newQuestion() {
+function addNewQuestionsToMongo() {
 
   const questions = await Promise.all([
-    post_methods.post_new_question()
+    post_new_question()
   ]).then(async function(results) {
       const foo = await Promise.all([
-      post_methods.post_to_mongo(results)
+      post_to_mongo(results)
     ]).then(function(anotherResult) {
       return res.send(anotherResult) 
     })
