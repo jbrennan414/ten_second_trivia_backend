@@ -9,7 +9,7 @@ var dbUrl = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS}@$
 
 const axios = require('axios');
 
-const post_new_question = () => {
+const get_questions = () => {
     return new Promise((resolve => {
         axios
             .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
@@ -68,19 +68,11 @@ function parseDates(rawValue) {
 }
 
 async function addNewQuestionsToMongo() {
-    return new Promise((resolve => {
-        const questions = await Promise.all([post_new_question()])
-            .then(async function(results) {
-                const foo = await Promise.all([
-                    post_to_mongo(results)
-                ]).then(function(anotherResult) {
-                    resolve(anotherResult)
-            })
-        }).catch(function(error) {
-            console.log("we had an error writing to the db", error)
-            resolve()
+    get_questions().then((value) => {
+        post_to_mongo(value).then(() => {
+            return "horray"
         })
-    }))
+    })
 }
 
 addNewQuestionsToMongo()
