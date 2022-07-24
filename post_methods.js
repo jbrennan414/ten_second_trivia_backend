@@ -82,4 +82,4 @@ async function addNewQuestionsToMongo() {
 
 }
 
-addNewQuestionsToMongo()
+module.exports = { addNewQuestionsToMongo: addNewQuestionsToMongo }
