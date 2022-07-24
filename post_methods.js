@@ -52,7 +52,6 @@ function post_to_mongo (result) {
 
             }
         })
-
     }))
 }
 
@@ -78,8 +77,8 @@ async function addNewQuestionsToMongo() {
     ]).then(function(anotherResult) {
       return res.send(anotherResult) 
     })
-  }).catch(function() {
-    console.log("we had an error writing to the db")
+  }).catch(function(error) {
+    console.log("we had an error writing to the db", error)
   })
 
   return questions
