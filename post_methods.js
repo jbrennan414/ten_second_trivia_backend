@@ -14,21 +14,24 @@ const get_questions = () => {
         axios
             .get('https://the-trivia-api.com/api/questions?limit=5&difficulty=easy')
             .then(res => {
+                console.log("we got a response from the api, let's respond")
                 let json = JSON.stringify(res.data)
                 resolve(json)
             })
             .catch(error => {
-                console.error(error);
+                console.log("we got an error from the api", error)
                 resolve()
             });
     }))
 }
 
 function post_to_mongo (result) {
+    console.log("we are attempting to post to mongo...")
     return new Promise((resolve => {
 
         MongoClient.connect(dbUrl, function(err, client) {
             if (err) {
+                console.log("unable to connect to db", err)
                 resolve(`${err}`)
                 throw err;
             } else {
@@ -45,11 +48,14 @@ function post_to_mongo (result) {
                     question: result
                  };
 
-                const ourResult = questionsCollection.insertOne(insertObject).catch(error => {
-                    console.log("error inserting", error)
-                })
-                resolve(ourResult)
-
+                const ourResult = questionsCollection.insertOne(insertObject)
+                    .then(() => {
+                        console.log("we successfully added the row")
+                        resolve(ourResult)
+                    })
+                    .catch(error => {
+                        console.log("error inserting", error)
+                    })
             }
         })
     }))
@@ -68,7 +74,7 @@ function parseDates(rawValue) {
 }
 
 async function addNewQuestionsToMongo() {
-    
+    console.log("beginning to add new questions to mongo...")
     const question = await get_questions()
     const writeToMongo = await post_to_mongo(question)
     
