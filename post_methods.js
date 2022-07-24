@@ -86,4 +86,4 @@ function addNewQuestionsToMongo() {
 
 }
 
-newQuestion()
+addNewQuestionsToMongo()
